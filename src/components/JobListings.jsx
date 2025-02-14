@@ -1,29 +1,23 @@
-import JobListing from "./jobListing";
+import JobListing from "./JobListing";
 import { useState, useEffect } from "react";
 import Spinner from "./Spinner";
+import AxiosClient from "../AxiosClient";
 const JobListings = ({ isHome = false }) => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        const fetchJobs = async () => {
-            try {
-                const response = await fetch(
-                    "http://127.0.0.1:8000/api/joblistings"
-                );
-                const data = await response.json();
-                setJobs(data.data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchJobs();
+        getUsers();
     }, []);
-    const recent = [...jobs];
-    if (isHome) {
-        recent.splice(Math.max(recent.length - 5, 1));
-    }
+    const getUsers = () => {
+        AxiosClient.get("/jobs")
+            .then(({ data }) => {
+                setJobs(data.data);
+                setLoading(false);
+            })
+            .catch(() => {
+                setLoading(false);
+            });
+    };
 
     return (
         <section className="bg-blue-50 px-4 py-10">
@@ -35,7 +29,7 @@ const JobListings = ({ isHome = false }) => {
                     <Spinner loading={loading} />
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {recent.map((job) => (
+                        {jobs.map((job) => (
                             <JobListing key={job.id} job={job} />
                         ))}
                     </div>

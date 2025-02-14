@@ -1,12 +1,14 @@
-import {useLoaderData, useNavigate} from "react-router-dom";
-import {useState} from "react";
-import {toast} from "react-toastify";
-
-const EditJobPage = ({EditJob}) => {
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { useStateContext } from "../contexts/ContextProvider";
+const EditJobPage = () => {
+    const { user } = useStateContext();
     const job = useLoaderData();
     const navigator = useNavigate();
     const [updatedJob, setUpdatedJob] = useState({
         id: job.id,
+        user_id: user.id,
         title: job.title,
         type: job.type,
         description: job.description,
@@ -17,6 +19,17 @@ const EditJobPage = ({EditJob}) => {
         company_email: job.company_email,
         company_phone: job.company_phone,
     });
+    const EditJob = async (job) => {
+        const res = await fetch(`http://127.0.0.1:8000/api/jobs/${job.id}`, {
+            method: "PUT",
+            body: JSON.stringify(job),
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+        });
+        if (!res.ok) console.log(res.statusText);
+    };
 
     function formSubmitHandler(e) {
         e.preventDefault();
@@ -26,8 +39,7 @@ const EditJobPage = ({EditJob}) => {
     }
 
     function HandleChange(e) {
-
-        setUpdatedJob({...updatedJob, [e.target.name]: e.target.value});
+        setUpdatedJob({ ...updatedJob, [e.target.name]: e.target.value });
     }
 
     return (

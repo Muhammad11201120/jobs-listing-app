@@ -1,11 +1,16 @@
-import {Link, useLoaderData, useNavigate} from "react-router-dom";
-import {FaArrowRight, FaMapMarker} from "react-icons/fa";
-import {toast} from "react-toastify";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { FaArrowRight, FaMapMarker } from "react-icons/fa";
+import { toast } from "react-toastify";
 
-const JobPage = ({deleteJob}) => {
+const JobPage = () => {
     const navigate = useNavigate();
     const job = useLoaderData();
-
+    const DeleteJob = async (jobId) => {
+        const res = await fetch(`http://127.0.0.1:8000/api/jobs/${jobId}`, {
+            method: "DELETE",
+        });
+        if (!res.ok) console.log(res.statusText);
+    };
     return (
         <>
             <section>
@@ -14,7 +19,7 @@ const JobPage = ({deleteJob}) => {
                         to="/jobs"
                         className="text-indigo-500 hover:text-indigo-600 flex items-center"
                     >
-                        <FaArrowRight className="ml-2"/> العودة للوظائف
+                        <FaArrowRight className="ml-2" /> العودة للوظائف
                     </Link>
                 </div>
             </section>
@@ -31,7 +36,7 @@ const JobPage = ({deleteJob}) => {
                                     {job.title}
                                 </h1>
                                 <div className="text-gray-500 mb-4 flex align-middle justify-center md:justify-start">
-                                    <FaMapMarker className="text-orange-700 ml-1"/>
+                                    <FaMapMarker className="text-orange-700 ml-1" />
                                     <p className="text-orange-700">
                                         {job.location}
                                     </p>
@@ -66,7 +71,7 @@ const JobPage = ({deleteJob}) => {
                                     {job.company_description}
                                 </p>
 
-                                <hr className="my-4"/>
+                                <hr className="my-4" />
 
                                 <h3 className="text-xl"> البريد الإلكتروني:</h3>
 
@@ -110,20 +115,18 @@ const JobPage = ({deleteJob}) => {
         if (!window.confirm("هل أنت متأكد من حذف هذه الوظيفة؟")) {
             return;
         }
-        deleteJob(id);
-        toast.success("تم الحذف بنجاح")
+        DeleteJob(id);
+        toast.success("تم الحذف بنجاح");
         navigate("/jobs");
     }
 };
-const JobLoader = async ({params}) => {
+const JobLoader = async ({ params }) => {
     try {
-        const res = await fetch(
-            `http://127.0.0.1:8000/api/joblistings/${params.jobId}`
-        );
+        const res = await fetch(`http://127.0.0.1:8000/api/jobs/${params.id}`);
         const data = await res.json();
         return data.data;
     } catch (error) {
         console.log(error);
     }
 };
-export {JobPage as default, JobLoader};
+export { JobPage as default, JobLoader };

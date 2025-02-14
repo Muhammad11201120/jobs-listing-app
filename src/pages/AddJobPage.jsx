@@ -1,10 +1,12 @@
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {toast} from "react-toastify";
-
-const AddJobPage = ({AddJobSubmit}) => {
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useStateContext } from "../contexts/ContextProvider";
+const AddJobPage = () => {
+    const { user } = useStateContext();
     const navigator = useNavigate();
     const [job, setJob] = useState({
+        user_id: user.id,
         title: "",
         type: "دوام - كامل",
         description: "",
@@ -18,15 +20,26 @@ const AddJobPage = ({AddJobSubmit}) => {
 
     function formSubmitHandler(e) {
         e.preventDefault();
-        AddJobSubmit(job);
+        AddJob(job);
         toast.success("تمت الإظافة بنجاح");
         return navigator("/jobs");
     }
 
     function HandleChange(e) {
-        setJob({...job, [e.target.name]: e.target.value});
+        setJob({ ...job, [e.target.name]: e.target.value });
     }
-
+    const AddJob = async (job) => {
+        //ADD NEW JOB
+        const res = await fetch("http://127.0.0.1:8000/api/jobs", {
+            method: "POST",
+            body: JSON.stringify(job),
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+        });
+        if (!res.ok) console.log(res.statusText);
+    };
     return (
         <section className="bg-indigo-50">
             <div className="container m-auto max-w-2xl py-24">
