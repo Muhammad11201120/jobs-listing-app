@@ -4,6 +4,7 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import AxiosClient from "../../AxiosClient";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
@@ -45,12 +46,9 @@ const Login = () => {
                 </h2>
                 <p className="mt-2 text-center text-sm leading-5 text-blue-500 max-w">
                     أو
-                    <a
-                        href="/register"
-                        className=" mr-1 font-medium text-blue-500 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150"
-                    >
-                        إنشاء حساب جديد
-                    </a>
+                    <NavLink to={"/register"}>
+                        <a>إنشاء حساب جديد</a>
+                    </NavLink>
                 </p>
             </div>
 

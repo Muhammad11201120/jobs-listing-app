@@ -3,7 +3,7 @@ import logo from "../../assets/images/logo.png";
 import { useRef } from "react";
 import { useStateContext } from "../../contexts/ContextProvider";
 import AxiosClient from "../../AxiosClient";
-
+import { NavLink } from "react-router-dom";
 const Register = () => {
     const { setUser, setToken } = useStateContext();
     const fullNameRef = useRef();
@@ -41,12 +41,11 @@ const Register = () => {
                 </h2>
                 <p className="mt-2 text-center text-sm leading-5 text-blue-500 max-w">
                     أو
-                    <a
-                        href="/login"
-                        className="mr-1 font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150"
-                    >
-                        الدخول لحساب مسجل مسبقا
-                    </a>
+                    <NavLink to={"/login"}>
+                        <a className="mr-1 font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                            الدخول لحساب مسجل مسبقا
+                        </a>
+                    </NavLink>
                 </p>
             </div>
 

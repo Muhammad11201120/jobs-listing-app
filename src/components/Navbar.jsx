@@ -4,22 +4,20 @@ import { FaCode, FaHome, FaArrowCircleLeft, FaUser } from "react-icons/fa";
 import { useStateContext } from "../contexts/ContextProvider";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import AxiosClient from "../AxiosClient";
 const Navbar = () => {
     const { user, token, setUser, setToken } = useStateContext();
     const navigator = useNavigate();
+    const userName = JSON.parse(localStorage.getItem("USER"));
     const linkClass = ({ isActive }) =>
         isActive
             ? "text-white bg-gray-900 rounded-md px-3 py-2"
             : "text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2";
 
     const onLogout = () => {
-        AxiosClient.get("/logout").then(({}) => {
-            setUser(null);
-            setToken(null);
-            toast.success("تمت تسجيل الخروج بنجاح");
-            return navigator("/login");
-        });
+        setUser(null);
+        setToken(null);
+        toast.success("تم تسجيل الخروج بنجاح");
+        return navigator("/login");
     };
     return (
         <nav className="bg-indigo-700 border-b border-indigo-500">
@@ -57,7 +55,9 @@ const Navbar = () => {
                                             className={linkClass}
                                         >
                                             <FaUser className="inline ml-2" />
-                                            {user.name}
+                                            {userName !== undefined
+                                                ? userName.name
+                                                : ""}
                                         </NavLink>
                                         <button
                                             onClick={onLogout}

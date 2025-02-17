@@ -4,11 +4,12 @@ import { toast } from "react-toastify";
 import { useStateContext } from "../contexts/ContextProvider";
 const EditJobPage = () => {
     const { user } = useStateContext();
+    const _user = JSON.parse(localStorage.getItem("USER"));
     const job = useLoaderData();
     const navigator = useNavigate();
     const [updatedJob, setUpdatedJob] = useState({
         id: job.id,
-        user_id: user.id,
+        user_id: _user.id,
         title: job.title,
         type: job.type,
         description: job.description,

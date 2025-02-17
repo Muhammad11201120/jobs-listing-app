@@ -17,7 +17,7 @@ const JobPage = () => {
                 <div className="container m-auto py-6 px-6">
                     <Link
                         to="/jobs"
-                        className="text-indigo-500 hover:text-indigo-600 flex items-center"
+                        className="text-indigo-500 hover:text-indigo-600 flex flex-col items-center"
                     >
                         <FaArrowRight className="ml-2" /> العودة للوظائف
                     </Link>
@@ -26,7 +26,7 @@ const JobPage = () => {
 
             <section className="bg-indigo-50">
                 <div className="container m-auto py-10 px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-70/30 w-full gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2  w-full gap-6">
                         <main>
                             <div className="bg-white p-6 rounded-lg shadow-md text-center md:text-right">
                                 <div className="text-gray-500 mb-4">
