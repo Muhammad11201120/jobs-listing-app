@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useStateContext } from "../contexts/ContextProvider";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+
 const AddJobPage = () => {
-    const { user } = useStateContext();
+    const user = JSON.parse(localStorage.getItem("USER"));
     const navigator = useNavigate();
     const [job, setJob] = useState({
         user_id: user.id,
@@ -26,8 +26,9 @@ const AddJobPage = () => {
     }
 
     function HandleChange(e) {
-        setJob({ ...job, [e.target.name]: e.target.value });
+        setJob({...job, [e.target.name]: e.target.value});
     }
+
     const AddJob = async (job) => {
         //ADD NEW JOB
         const res = await fetch("http://127.0.0.1:8000/api/jobs", {
@@ -39,9 +40,10 @@ const AddJobPage = () => {
             },
         });
         if (!res.ok) console.log(res.statusText);
+
     };
     return (
-        <section className="bg-indigo-50">
+        <section className="bg-gray-900">
             <div className="container m-auto max-w-2xl py-24">
                 <div className="bg-white px-6 py-8 mb-4 shadow-lg rounded-md  m-4 md:m-0">
                     <form onSubmit={formSubmitHandler}>

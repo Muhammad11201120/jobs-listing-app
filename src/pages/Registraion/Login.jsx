@@ -1,29 +1,27 @@
-import logo from "../../assets/images/logo.png";
-import { useRef, useState } from "react";
-import { useStateContext } from "../../contexts/ContextProvider";
+import {useRef, useState} from "react";
+import {useStateContext} from "../../contexts/ContextProvider";
 import AxiosClient from "../../AxiosClient";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import {toast} from "react-toastify";
+import {NavLink, useNavigate} from "react-router-dom";
+
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [remember, setRemember] = useState("");
-    const emailkRef = useRef();
+    const emailRef = useRef();
     const passwordRef = useRef();
-    const { setUser, setToken } = useStateContext();
+    const {setUser, setToken} = useStateContext();
     const Submit = (e) => {
         e.preventDefault();
         const payLoad = {
-            email: emailkRef.current.value,
+            email: emailRef.current.value,
             password: passwordRef.current.value,
         };
         AxiosClient.post("/login", payLoad)
-            .then(({ data }) => {
+            .then(({data}) => {
                 setUser(data.user);
                 setToken(data.token);
                 toast.success("تم تسجيل الدخول بنجاح");
-                console.log(data.user.id);
                 return navigate("/");
             })
             .catch((err) => {
@@ -31,29 +29,32 @@ const Login = () => {
                 if (response && response.status === 422) {
                     console.log(response.data.errors);
                 }
+                console.log(response);
+                toast.error("حدث خطأ أثناء محاولة تسجيل الدخول حاول مرة أخرى");
+                return navigate("/login");
             });
     };
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6">
+        <div className="min-h-screen  flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <img
-                    className="mx-auto h-10 w-auto  border-1 rounded-full border-indigo-700"
-                    src={logo}
-                    alt="Workflow"
-                />
-                <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+                <div className="flex justify-center items-center -space-x-3 font-semibold">
+                    <span className="h-6 aspect-square bg-emerald-600 dark:bg-emerald-400 rounded-full flex "/>
+                    <span className="h-6 aspect-square bg-gray-600 dark:bg-white rounded-full flex"/>
+                </div>
+                <h2 className="my-10 text-center text-3xl leading-9 font-extrabold text-white">
                     تسجيل الدخول لحسابك
                 </h2>
-                <p className="mt-2 text-center text-sm leading-5 text-blue-500 max-w">
+                <p className="my-10 text-center text-sm leading-5 text-green-500 max-w">
                     أو
-                    <NavLink to={"/register"}>
+                    <NavLink to={"/register"}
+                             className={'mr-1 font-medium text-green-500 hover:text-green-400 focus:outline-none focus:underline transition ease-in-out duration-15'}>
                         <a>إنشاء حساب جديد</a>
                     </NavLink>
                 </p>
             </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className=" sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="bg-gray-100 py-10 px-6 shadow shadow-gray-100 sm:rounded-lg sm:px-10 ">
                     <form onSubmit={Submit}>
                         <div>
                             <label
@@ -69,12 +70,13 @@ const Login = () => {
                                     placeholder="user@example.com"
                                     type="email"
                                     required={true}
-                                    ref={emailkRef}
+                                    ref={emailRef}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                 />
-                                <div className="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <div
+                                    className="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <svg
                                         className="h-5 w-5 text-red-500"
                                         fill="currentColor"

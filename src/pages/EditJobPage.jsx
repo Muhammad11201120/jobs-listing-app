@@ -1,15 +1,17 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { useStateContext } from "../contexts/ContextProvider";
+import {useLoaderData, useNavigate} from "react-router-dom";
+import {useState} from "react";
+import {toast} from "react-toastify";
+import {useStateContext} from "../contexts/ContextProvider";
+
 const EditJobPage = () => {
-    const { user } = useStateContext();
-    const _user = JSON.parse(localStorage.getItem("USER"));
-    const job = useLoaderData();
+    const {user} = useStateContext();
+
+    let job;
+    job = useLoaderData();
     const navigator = useNavigate();
     const [updatedJob, setUpdatedJob] = useState({
         id: job.id,
-        user_id: _user.id,
+        user_id: user.id,
         title: job.title,
         type: job.type,
         description: job.description,
@@ -34,13 +36,15 @@ const EditJobPage = () => {
 
     function formSubmitHandler(e) {
         e.preventDefault();
-        EditJob(updatedJob);
+        EditJob(updatedJob).then((res) => {
+            console.log(res)
+        });
         toast.success("تمت التعديل بنجاح");
         return navigator("/jobs");
     }
 
     function HandleChange(e) {
-        setUpdatedJob({ ...updatedJob, [e.target.name]: e.target.value });
+        setUpdatedJob({...updatedJob, [e.target.name]: e.target.value});
     }
 
     return (

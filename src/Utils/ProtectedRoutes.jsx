@@ -1,9 +1,8 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import {Navigate, Outlet} from "react-router-dom";
 
 const ProtectedRoutes = () => {
-    const navigator = useNavigate();
-    const user = localStorage.getItem("USER");
-    return user ? <Outlet /> : navigator("/login");
+    const token = localStorage.getItem("ACCESS_TOKEN");
+    return (token ? <Outlet/> : <Navigate to={'/login'}/>);
 };
 
 export default ProtectedRoutes;

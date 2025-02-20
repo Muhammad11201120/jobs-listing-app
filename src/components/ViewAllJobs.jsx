@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+
 const ViewAllJobs = () => {
     return (
         <section className="m-auto max-w-lg my-10 px-6">
             <Link
                 to="./jobs"
-                className="block bg-black text-white text-center py-4 px-6 rounded-xl hover:bg-gray-700"
+                className="block bg-white text-gray-900 text-center py-4 px-6 rounded-xl hover:bg-gray-700 hover:text-white"
             >
                 تصفح جميع الوظائف
             </Link>

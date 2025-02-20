@@ -1,11 +1,11 @@
-import { FaUser } from "react-icons/fa";
-import logo from "../../assets/images/logo.png";
-import { useRef } from "react";
-import { useStateContext } from "../../contexts/ContextProvider";
+import {FaUser} from "react-icons/fa";
+import {useRef} from "react";
+import {useStateContext} from "../../contexts/ContextProvider";
 import AxiosClient from "../../AxiosClient";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
+
 const Register = () => {
-    const { setUser, setToken } = useStateContext();
+    const {setUser, setToken} = useStateContext();
     const fullNameRef = useRef();
     const userNameRef = useRef();
     const emailRef = useRef();
@@ -18,7 +18,7 @@ const Register = () => {
             password: passwordRef.current.value,
         };
         AxiosClient.post("/register", payload)
-            .then(({ data }) => {
+            .then(({data}) => {
                 setUser(data.user);
                 setToken(data.token);
             })
@@ -29,28 +29,27 @@ const Register = () => {
             });
     };
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="min-h-screen  flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6 mt-20">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <img
-                    className="mx-auto h-10 w-auto  border-1 rounded-full border-indigo-700"
-                    src={logo}
-                    alt="logo"
-                />
-                <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+                <div className="flex justify-center items-center -space-x-3 font-semibold">
+                    <span className="h-6 aspect-square bg-emerald-600 dark:bg-emerald-400 rounded-full flex "/>
+                    <span className="h-6 aspect-square bg-gray-600 dark:bg-white rounded-full flex"/>
+                </div>
+                <h2 className="my-10 text-center text-3xl leading-9 font-extrabold text-white">
                     إنشاء حساب جديد
                 </h2>
-                <p className="mt-2 text-center text-sm leading-5 text-blue-500 max-w">
+                <p className="text-center text-sm leading-5 text-green-500 max-w">
                     أو
                     <NavLink to={"/login"}>
-                        <a className="mr-1 font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                        <a className="mr-1 font-medium text-green-500 hover:text-green-400 focus:outline-none focus:underline transition ease-in-out duration-150">
                             الدخول لحساب مسجل مسبقا
                         </a>
                     </NavLink>
                 </p>
             </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="bg-gray-100 py-8 px-4 shadow sm:rounded-lg sm:px-10">
                     <form onSubmit={Submit}>
                         <div>
                             <label
@@ -69,7 +68,8 @@ const Register = () => {
                                     required=""
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                 />
-                                <div className="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <div
+                                    className="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <svg
                                         className="h-5 w-5 text-red-500"
                                         fill="currentColor"
@@ -93,8 +93,9 @@ const Register = () => {
                                 اسم المستخدم
                             </label>
                             <div className="mt-1 flex rounded-md shadow-sm">
-                                <span className="inline-flex h-10 items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                                    <FaUser />
+                                <span
+                                    className="inline-flex h-10 items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                                    <FaUser/>
                                 </span>
                                 <input
                                     ref={userNameRef}
@@ -125,7 +126,8 @@ const Register = () => {
                                     required=""
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                 />
-                                <div className="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <div
+                                    className="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <svg
                                         className="h-5 w-5 text-red-500"
                                         fill="currentColor"

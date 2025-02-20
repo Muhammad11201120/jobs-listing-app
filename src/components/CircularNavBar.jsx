@@ -4,6 +4,10 @@ import {NavLink} from "react-router-dom";
 
 const CircularNavBar = () => {
     const [openNavbar, setOpenNavbar] = useState(false);
+    const linkClass = ({isActive}) =>
+        isActive
+            ? 'font-bold underline text-green-300 '
+            : '';
     const toggleNavbar = () => {
         setOpenNavbar((openNavbar) => !openNavbar);
     };
@@ -12,8 +16,8 @@ const CircularNavBar = () => {
             <div className="mx-auto lg:max-w-7xl w-full px-5 sm:px-10 md:px-12 lg:px-5 h-full items-center">
                 <nav className="flex justify-between items-center h-full">
                     <div className="flex min-w-max items-center">
-                        <a
-                            href="/"
+                        <NavLink
+                            to="/"
                             className="flex items-center gap-x-4 text-2xl font-semibold text-gray-700 dark:text-gray-300"
                         >
                             <div className="flex items-center -space-x-3 font-semibold">
@@ -22,7 +26,7 @@ const CircularNavBar = () => {
                                 <span className="h-6 aspect-square bg-gray-600 dark:bg-white rounded-full flex"/>
                             </div>
                             ويب ستاك
-                        </a>
+                        </NavLink>
                     </div>
                     <div
                         className={`
@@ -38,32 +42,32 @@ const CircularNavBar = () => {
                         <ul className="flex flex-col gap-y-5 text-gray-700 dark:text-gray-300 lg:items-center lg:flex-row lg:gap-x-5 lg:h-full lg:justify-center lg:flex-1">
                             <li>
                                 <NavLink
-                                    to="#"
-                                    className="transition ease-linear hover:text-gray-900 dark:hover:text-white"
+                                    to="/"
+                                    className={linkClass}
                                 >
                                     الرئيسية
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink
-                                    to="#"
-                                    className="transition ease-linear hover:text-gray-900 dark:hover:text-white"
+                                    to="/jobs"
+                                    className={linkClass}
                                 >
                                     الوظائف
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink
-                                    to="#"
-                                    className="transition ease-linear hover:text-gray-900 dark:hover:text-white"
+                                    to="/add-job"
+                                    className={linkClass}
                                 >
-                                    وظيفةجديدة
+                                    وظيفة جديدة
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink
-                                    to="#"
-                                    className="transition ease-linear hover:text-gray-900 dark:hover:text-white"
+                                    to="/login"
+                                    className={linkClass}
                                 >
                                     تسجيل الدخول
                                 </NavLink>
@@ -71,9 +75,9 @@ const CircularNavBar = () => {
                         </ul>
                         <div className="w-full flex sm:w-max lg:min-w-max lg:items-center">
                             <NavLink
-                                to="#"
+                                to="/contact-us"
                                 className="flex justify-center gap-x-3 items-center text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white
-                  border-b  dark:border-blue-300 hover:border-b-gray-900 dark:hover:border-b-white bg-transparent"
+                  border-b  dark:border-green-300 hover:border-b-gray-900 dark:hover:border-b-white bg-transparent"
                             >
                                 كن على تواصل
                                 <span>

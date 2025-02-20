@@ -1,30 +1,41 @@
-import { Link, useLoaderData, useNavigate } from "react-router-dom";
-import { FaArrowRight, FaMapMarker } from "react-icons/fa";
-import { toast } from "react-toastify";
+import {Link, useLoaderData, useNavigate} from "react-router-dom";
+import {FaArrowRight, FaMapMarker} from "react-icons/fa";
+import {toast} from "react-toastify";
+import {useStateContext} from "../contexts/ContextProvider.jsx";
 
 const JobPage = () => {
+
+    const {user} = useStateContext()
+    let job = {};
     const navigate = useNavigate();
-    const job = useLoaderData();
-    const DeleteJob = async (jobId) => {
-        const res = await fetch(`http://127.0.0.1:8000/api/jobs/${jobId}`, {
+    job = useLoaderData();
+    const DeleteJob = async () => {
+        const res = await fetch(`http://127.0.0.1:8000/api/jobs/${job.id}`, {
             method: "DELETE",
+        }).then((res) => {
+            console.log(res);
+            toast.success("تم الحذف بنجاح");
+            navigate("/jobs");
+        }).catch((err) => {
+            console.log(err);
+            toast.error(err.message);
+            navigate("/jobs");
         });
-        if (!res.ok) console.log(res.statusText);
     };
     return (
         <>
             <section>
-                <div className="container m-auto py-6 px-6">
+                <div className="container m-auto py-6 px-6 mt-20">
                     <Link
                         to="/jobs"
                         className="text-indigo-500 hover:text-indigo-600 flex flex-col items-center"
                     >
-                        <FaArrowRight className="ml-2" /> العودة للوظائف
+                        <FaArrowRight className="ml-2"/> العودة للوظائف
                     </Link>
                 </div>
             </section>
 
-            <section className="bg-indigo-50">
+            <section>
                 <div className="container m-auto py-10 px-6">
                     <div className="grid grid-cols-1 lg:grid-cols-2  w-full gap-6">
                         <main>
@@ -36,7 +47,7 @@ const JobPage = () => {
                                     {job.title}
                                 </h1>
                                 <div className="text-gray-500 mb-4 flex align-middle justify-center md:justify-start">
-                                    <FaMapMarker className="text-orange-700 ml-1" />
+                                    <FaMapMarker className="text-orange-700 ml-1"/>
                                     <p className="text-orange-700">
                                         {job.location}
                                     </p>
@@ -71,7 +82,7 @@ const JobPage = () => {
                                     {job.company_description}
                                 </p>
 
-                                <hr className="my-4" />
+                                <hr className="my-4"/>
 
                                 <h3 className="text-xl"> البريد الإلكتروني:</h3>
 
@@ -87,7 +98,7 @@ const JobPage = () => {
                                 </p>
                             </div>
 
-                            <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+                            {user.id === job.user_id ? (<div className="bg-white p-6 rounded-lg shadow-md mt-6">
                                 <h3 className="text-xl font-bold mb-6">
                                     إدارة الوظيفة
                                 </h3>
@@ -103,7 +114,7 @@ const JobPage = () => {
                                 >
                                     حذف الوظيفة
                                 </button>
-                            </div>
+                            </div>) : ''}
                         </aside>
                     </div>
                 </div>
@@ -116,11 +127,11 @@ const JobPage = () => {
             return;
         }
         DeleteJob(id);
-        toast.success("تم الحذف بنجاح");
-        navigate("/jobs");
+
     }
 };
-const JobLoader = async ({ params }) => {
+const JobLoader = async ({params}) => {
+
     try {
         const res = await fetch(`http://127.0.0.1:8000/api/jobs/${params.id}`);
         const data = await res.json();
@@ -129,4 +140,4 @@ const JobLoader = async ({ params }) => {
         console.log(error);
     }
 };
-export { JobPage as default, JobLoader };
+export {JobPage as default, JobLoader};
